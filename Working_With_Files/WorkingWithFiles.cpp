@@ -1,23 +1,23 @@
-#include <string>
+п»ї#include <string>
 #include<fstream>
 #include<iostream>
 #include<cstdlib>
 #include <ctime>
-
+#include <chrono> //  РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РІСЂРµРјРµРЅРё
 using namespace std;
 
 void write_arr(const string& filename, const int* arr, const int n)
 {
 	fstream fs;
 	fs.open(filename, fstream::out);
-	if (fs.is_open())// проверяем что файл успешно открыт
+	if (fs.is_open())// РїСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ С„Р°Р№Р» СѓСЃРїРµС€РЅРѕ РѕС‚РєСЂС‹С‚
 	{
-		fs << n << '\n';//записываем размер массива
+		fs << n << '\n';//Р·Р°РїРёСЃС‹РІР°РµРј СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°
 		for (int i = 0; i < n; i++)
-			fs << arr[i] << ' ';//записываем значения через пробел
+			fs << arr[i] << ' ';//Р·Р°РїРёСЃС‹РІР°РµРј Р·РЅР°С‡РµРЅРёСЏ С‡РµСЂРµР· РїСЂРѕР±РµР»
 		fs << '\n';
 
-		fs.close();//закрываем файл
+		fs.close();//Р·Р°РєСЂС‹РІР°РµРј С„Р°Р№Р»
 	}
 }
 
@@ -26,34 +26,89 @@ void read_arr(const string& filename,  int* arr, int n)
 	fstream fs;
 
 	fs.open(filename, fstream::in);
-	if (fs.is_open())// проверяем что файл успешно открыт
+	if (fs.is_open())// РїСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ С„Р°Р№Р» СѓСЃРїРµС€РЅРѕ РѕС‚РєСЂС‹С‚
 	{
-		fs >> n; // читаем размер массива
+		fs >> n; // С‡РёС‚Р°РµРј СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°
 		arr = new int[n];
 		for (int i = 0; i < n; ++i)
-			fs >> arr[i];// читаем из файла разделительные символы - пробел и перенос строки
+			fs >> arr[i];// С‡РёС‚Р°РµРј РёР· С„Р°Р№Р»Р° СЂР°Р·РґРµР»РёС‚РµР»СЊРЅС‹Рµ СЃРёРјРІРѕР»С‹ - РїСЂРѕР±РµР» Рё РїРµСЂРµРЅРѕСЃ СЃС‚СЂРѕРєРё
 
-		fs.close();//закрываем файл
+		fs.close();//Р·Р°РєСЂС‹РІР°РµРј С„Р°Р№Р»
 	}
 }
+void swap(int* a, int* b) // С„СѓРЅРєС†РёСЏ РґР»СЏ СЃРјРµРЅС‹ РјРµСЃС‚Р°РјРё РґРІСѓС… Р·РЅР°С‡РµРЅРёР№
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
+int partition(int* arr, int low, int high)
+{
+    int pivot = arr[high];    // РѕРїРѕСЂРЅС‹Р№ СЌР»РµРјРµРЅС‚
+    int i = (low - 1);  // РёРЅРґРµРєСЃ РЅР°РёРјРµРЅСЊС€РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+    for (int j = low; j <= high - 1; j++)
+    {
+        // РµСЃР»Рё С‚РµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚ РјРµРЅСЊС€Рµ РёР»Рё СЂР°РІРµРЅ РѕРїРѕСЂРЅСѓРјСѓ
+        if (arr[j] <= pivot)
+        {
+            i++; // СѓРІРµР»РёС‡РёРІР°РµРј РёРЅРґРµРєСЃ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+void quickSort(int* arr, int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(arr, low, high); // РёРЅРґРµРєСЃ РѕРїРѕСЂРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+
+        // СЂРµРєСѓСЂСЃРёРІС‹РЅРµ РІС‹Р·РѕРІС‹ РґР»СЏ РїСЂР°РІРѕР№ Рё Р»РµРІРѕР№ С‡Р°СЃС‚РµР№ РІС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР°
+        if (pi > 0 && pi < high)
+        {
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+        else if (pi == high)
+        {
+
+            --high;
+            quickSort(arr, low, high);
+        }
+        else
+        {
+            ++low;
+            quickSort(arr, low, high);
+        }
+
+    }
+}
 int main()
 {
 	string filename = "array_data.txt";
-	const int size = 100;
+	const int size = 500000;
 	int* rand_arr = new int[size];
 
-	srand(time(nullptr));//используем текущее время, чтобы сгенерировать случайные значения
+	srand(time(nullptr));//РёСЃРїРѕР»СЊР·СѓРµРј С‚РµРєСѓС‰РµРµ РІСЂРµРјСЏ, С‡С‚РѕР±С‹ СЃРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ СЃР»СѓС‡Р°Р№РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
 	int lef_border = 5;
-	int range_len = 10;//правая граница = range_len+lef_border
+	int range_len = 1000;//РїСЂР°РІР°СЏ РіСЂР°РЅРёС†Р° = range_len+lef_border
 	for (int i = 0; i < size; ++i)
-			rand_arr[i] = lef_border + rand() % range_len;//генерируем число в указанном диапазоне и записываем в массив
+			rand_arr[i] = lef_border + rand() % range_len;//РіРµРЅРµСЂРёСЂСѓРµРј С‡РёСЃР»Рѕ РІ СѓРєР°Р·Р°РЅРЅРѕРј РґРёР°РїР°Р·РѕРЅРµ Рё Р·Р°РїРёСЃС‹РІР°РµРј РІ РјР°СЃСЃРёРІ
 
-	write_arr(filename, rand_arr, size);//записываем массив в файл
+	write_arr(filename, rand_arr, size);//Р·Р°РїРёСЃС‹РІР°РµРј РјР°СЃСЃРёРІ РІ С„Р°Р№Р»
 
 	int* array_from_file = nullptr;
 	int n = 0;
-	read_arr(filename, array_from_file, n);//читаем массив из файла
+	read_arr(filename, array_from_file, n);//С‡РёС‚Р°РµРј РјР°СЃСЃРёРІ РёР· С„Р°Р№Р»Р°
+
+	auto start = chrono::high_resolution_clock::now(); //СЃРѕС…СЂР°РЅСЏРµРј РІСЂРµРјСЏ РЅР°С‡Р°Р»Р° СЂР°Р±РѕС‚С‹ Р°Р»РіРѕСЂРёС‚РјРјР°
+    quickSort(array_from_file, 0, n);//Р·Р°РїСѓСЃРєР°РµРј СЃРѕСЂС‚РёСЂРѕРІРєСѓ
+    auto finish = chrono::high_resolution_clock::now(); // СЃРѕС…СЂР°РЅСЏРµРј РІСЂРµРјСЏ РєРѕРЅС†Р° СЂР°Р±РѕС‚С‹ Р°Р»РіРѕСЂРёС‚РјР°
+    chrono::duration<double>elapsed = finish - start;
+    cout << "Elapsed time: " << elapsed.count() << " sec" << endl;
 
 	delete[] rand_arr;
 	delete[] array_from_file;
