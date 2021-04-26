@@ -147,7 +147,15 @@
     <Text Include="array_little_data.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BubbleSort.h" />
+    <ClInclude Include="BucketSort.h" />
+    <ClInclude Include="CountSort.h" />
+    <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="quickSort.h" />
+    <ClInclude Include="RadixSort.h" />
+    <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="TimSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

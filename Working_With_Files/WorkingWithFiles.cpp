@@ -3,9 +3,19 @@
 #include<iostream>
 #include<cstdlib>
 #include <ctime>
+#include <algorithm>
 #include <chrono> //  для получения времени
 
-#include "quickSort.h"
+//#include "quickSort.h"
+#include "CountSort.h"
+//#include"RadixSort.h"
+//#include"BucketSort.h"
+//#include"BubbleSort.h"
+//#include"MergeSort.h"
+//#include"InsertionSort.h"
+//#include"SelectionSort.h"
+//#include"TimSort.h"
+
 using namespace std;
 
 void write_arr(const string& filename, const int* arr, const int n)
@@ -65,7 +75,16 @@ int main()
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 
 	auto start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-	quickSort(array_from_file, 0, n);//запускаем сортировку
+	//quickSort(array_from_file, 0, n);//запускаем сортировку
+	countSort(array_from_file,n);
+	//radixSort(array_from_file, n);
+	//bucketSort(array_from_file, n);
+	//bubbleSort(array_from_file, n);
+	//mergeSort(array_from_file, 0, n-1);
+	//insertionSort(array_from_file, n)
+	//selectionSort(array_from_file, n);
+	//timSort(array_from_file, n);
+
 	auto finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
 	chrono::duration<double>elapsed = finish - start;
 	cout << "Elapsed time of a small array with values from a small range: " << elapsed.count() << " sec" << endl;
@@ -84,7 +103,15 @@ int main()
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 	
 	start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-	quickSort(array_from_file, 0, n);//запускаем сортировку
+	//quickSort(array_from_file, 0, n);//запускаем сортировку
+	countSort(array_from_file, n);
+	//radixSort(array_from_file, n);
+	//bucketSort(array_from_file, n);
+	//bubbleSort(array_from_file, n);
+	//mergeSort(array_from_file, 0, n - 1);
+	//insertionSort(array_from_file, n);
+	//selectionSort(array_from_file, n);
+	//timSort(array_from_file, n);
 	finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
 	elapsed = finish - start;
 	cout << "Elapsed time is a large array with values from a small range: " << elapsed.count() << " sec" << endl;
@@ -105,7 +132,15 @@ int main()
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 	
 	start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-    quickSort(array_from_file, 0, n);//запускаем сортировку
+	//quickSort(array_from_file, 0, n);//запускаем сортировку
+	countSort(array_from_file, n);
+	//radixSort(array_from_file, n);
+	//bucketSort(array_from_file, n);
+	//bubbleSort(array_from_file, n);
+	//mergeSort(array_from_file, 0, n - 1);
+	//insertionSort(array_from_file, n);
+	//selectionSort(array_from_file, n);
+	//timSort(array_from_file, n);
     finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
     elapsed = finish - start;
     cout << "Elapsed time of a large array with values from a large range: " << elapsed.count() << " sec" << endl;
