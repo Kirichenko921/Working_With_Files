@@ -4,6 +4,8 @@
 #include<cstdlib>
 #include <ctime>
 #include <chrono> //  для получения времени
+
+#include "quickSort.h"
 using namespace std;
 
 void write_arr(const string& filename, const int* arr, const int n)
@@ -36,81 +38,79 @@ void read_arr(const string& filename,  int* arr, int n)
 		fs.close();//закрываем файл
 	}
 }
-void swap(int* a, int* b) // функция для смены местами двух значений
+void fillingArray( int* rand_arr, const int size,const int  range_len)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
+	srand(time(nullptr));//используем текущее время, чтобы сгенерировать случайные значения
+	int lef_border = 5;
+		for (int i = 0; i < size; ++i)
+		rand_arr[i] = lef_border + rand() % range_len;//генерируем число в указанном диапазоне и записываем в массив
 
-int partition(int* arr, int low, int high)
-{
-    int pivot = arr[high];    // опорный элемент
-    int i = (low - 1);  // индекс наименьшего элемента
-    for (int j = low; j <= high - 1; j++)
-    {
-        // если текущий элемент меньше или равен опорнуму
-        if (arr[j] <= pivot)
-        {
-            i++; // увеличиваем индекс минимального элемента
-            swap(&arr[i], &arr[j]);
-        }
-    }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
-}
-
-void quickSort(int* arr, int low, int high)
-{
-    if (low < high)
-    {
-        int pi = partition(arr, low, high); // индекс опорного элемента
-
-        // рекурсивыне вызовы для правой и левой частей входного массива
-        if (pi > 0 && pi < high)
-        {
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
-        else if (pi == high)
-        {
-
-            --high;
-            quickSort(arr, low, high);
-        }
-        else
-        {
-            ++low;
-            quickSort(arr, low, high);
-        }
-
-    }
 }
 int main()
 {
-	string filename = "array_data.txt";
-	const int size = 500000;
-	int* rand_arr = new int[size];
 
-	srand(time(nullptr));//используем текущее время, чтобы сгенерировать случайные значения
-	int lef_border = 5;
-	int range_len = 1000;//правая граница = range_len+lef_border
-	for (int i = 0; i < size; ++i)
-			rand_arr[i] = lef_border + rand() % range_len;//генерируем число в указанном диапазоне и записываем в массив
+	string filename = "array_little_data.txt";
+	const int littleSize = 100;
+	int *arr=new int[littleSize];
 
-	write_arr(filename, rand_arr, size);//записываем массив в файл
+	for  (int i=0;i<littleSize;++i)
+	{
+		arr[i] = 5;
+	}
+
+	write_arr(filename, arr, littleSize);//записываем массив в файл
 
 	int* array_from_file = nullptr;
 	int n = 0;
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 
 	auto start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-    quickSort(array_from_file, 0, n);//запускаем сортировку
-    auto finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
-    chrono::duration<double>elapsed = finish - start;
-    cout << "Elapsed time: " << elapsed.count() << " sec" << endl;
+	quickSort(array_from_file, 0, n);//запускаем сортировку
+	auto finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
+	chrono::duration<double>elapsed = finish - start;
+	cout << "Elapsed time of a small array with values from a small range: " << elapsed.count() << " sec" << endl;
+	delete[]arr;
+	//----------------------------------------------------------------------------------------------------
+    filename = "array_big_data_little.txt";
+	const int bigSize = 500000;
+	int* littleArr = new int[bigSize];
 
-	delete[] rand_arr;
+	fillingArray(littleArr, bigSize, 10);
+
+	write_arr(filename, littleArr, bigSize);//записываем массив в файл
+
+	array_from_file = nullptr;
+	n = 0;
+	read_arr(filename, array_from_file, n);//читаем массив из файла
+	
+	start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
+	quickSort(array_from_file, 0, n);//запускаем сортировку
+	finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
+	elapsed = finish - start;
+	cout << "Elapsed time is a large array with values from a small range: " << elapsed.count() << " sec" << endl;
+
+	delete[] littleArr;
+	//--------------------------------------------------------------------------------------------------
+
+	filename = "array_big_data_big.txt";
+	
+	int* bigArr = new int[bigSize];
+
+	fillingArray(bigArr, bigSize, 1000);
+
+	write_arr(filename, bigArr, bigSize);//записываем массив в файл
+
+	array_from_file = nullptr;
+    n = 0;
+	read_arr(filename, array_from_file, n);//читаем массив из файла
+	
+	start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
+    quickSort(array_from_file, 0, n);//запускаем сортировку
+    finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
+    elapsed = finish - start;
+    cout << "Elapsed time of a large array with values from a large range: " << elapsed.count() << " sec" << endl;
+
+	delete[] bigArr;
 	delete[] array_from_file;
 
 	return 0;

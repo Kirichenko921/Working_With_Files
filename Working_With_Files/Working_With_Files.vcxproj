@@ -142,7 +142,12 @@
     <ClCompile Include="WorkingWithFiles.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="array_data.txt" />
+    <Text Include="array_big_data_big.txt" />
+    <Text Include="array_big_data_little.txt" />
+    <Text Include="array_little_data.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="quickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

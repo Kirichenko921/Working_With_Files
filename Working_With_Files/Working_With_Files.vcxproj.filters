@@ -20,7 +20,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="array_data.txt">
+    <ClInclude Include="quickSort.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="array_big_data_big.txt">
+      <Filter>Исходные файлы</Filter>
+    </Text>
+    <Text Include="array_big_data_little.txt">
+      <Filter>Исходные файлы</Filter>
+    </Text>
+    <Text Include="array_little_data.txt">
       <Filter>Исходные файлы</Filter>
     </Text>
   </ItemGroup>
