@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <chrono> //  для получения времени
 
-//#include "quickSort.h"
-#include "CountSort.h"
+#include "quickSort.h"
+//#include "CountSort.h"
 //#include"RadixSort.h"
 //#include"BucketSort.h"
 //#include"BubbleSort.h"
@@ -33,7 +33,7 @@ void write_arr(const string& filename, const int* arr, const int n)
 	}
 }
 
-void read_arr(const string& filename,  int* arr, int n)
+void read_arr(const string& filename,  int *&arr, int &n)
 {
 	fstream fs;
 
@@ -42,6 +42,7 @@ void read_arr(const string& filename,  int* arr, int n)
 	{
 		fs >> n; // читаем размер массива
 		arr = new int[n];
+		
 		for (int i = 0; i < n; ++i)
 			fs >> arr[i];// читаем из файла разделительные символы - пробел и перенос строки
 
@@ -60,38 +61,37 @@ int main()
 {
 
 	string filename = "array_little_data.txt";
-	const int littleSize = 100;
-	int *arr=new int[littleSize];
-
-	for  (int i=0;i<littleSize;++i)
+	const int littleSize = 10;
+	int *anArray =new int[littleSize];
+	for (int i = 0; i < littleSize; ++i)
 	{
-		arr[i] = 5;
+		anArray[i] = 5;
 	}
-
-	write_arr(filename, arr, littleSize);//записываем массив в файл
+	
+	write_arr(filename, anArray, littleSize);//записываем массив в файл
 
 	int* array_from_file = nullptr;
 	int n = 0;
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 
 	auto start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-	//quickSort(array_from_file, 0, n);//запускаем сортировку
-	countSort(array_from_file,n);
+	quickSort(array_from_file, 0, n-1);//запускаем сортировку
+	//countSort(array_from_file,n);
 	//radixSort(array_from_file, n);
 	//bucketSort(array_from_file, n);
 	//bubbleSort(array_from_file, n);
 	//mergeSort(array_from_file, 0, n-1);
-	//insertionSort(array_from_file, n)
+	//insertionSort(array_from_file, n);
 	//selectionSort(array_from_file, n);
 	//timSort(array_from_file, n);
 
 	auto finish = chrono::high_resolution_clock::now(); // сохраняем время конца работы алгоритма
 	chrono::duration<double>elapsed = finish - start;
 	cout << "Elapsed time of a small array with values from a small range: " << elapsed.count() << " sec" << endl;
-	delete[]arr;
+	delete[]anArray;
 	//----------------------------------------------------------------------------------------------------
-    filename = "array_big_data_little.txt";
-	const int bigSize = 500000;
+  filename = "array_big_data_little.txt";
+	const int bigSize = 50000;
 	int* littleArr = new int[bigSize];
 
 	fillingArray(littleArr, bigSize, 10);
@@ -103,8 +103,8 @@ int main()
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 	
 	start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-	//quickSort(array_from_file, 0, n);//запускаем сортировку
-	countSort(array_from_file, n);
+	quickSort(array_from_file, 0, n-1);//запускаем сортировку
+	//countSort(array_from_file, n);
 	//radixSort(array_from_file, n);
 	//bucketSort(array_from_file, n);
 	//bubbleSort(array_from_file, n);
@@ -132,8 +132,8 @@ int main()
 	read_arr(filename, array_from_file, n);//читаем массив из файла
 	
 	start = chrono::high_resolution_clock::now(); //сохраняем время начала работы алгоритмма
-	//quickSort(array_from_file, 0, n);//запускаем сортировку
-	countSort(array_from_file, n);
+	quickSort(array_from_file, 0, n-1);//запускаем сортировку
+	//countSort(array_from_file, n);
 	//radixSort(array_from_file, n);
 	//bucketSort(array_from_file, n);
 	//bubbleSort(array_from_file, n);

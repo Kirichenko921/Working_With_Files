@@ -47,7 +47,7 @@ void merge(int* arr, int l, int m, int r)
 
 void mergeSort(int* arr, int l, int r)
 {
-    if (l > r) { return; } //выходим из рекурсии
+    if (l >= r) { return; } //выходим из рекурсии
     
     int m = (l + r - 1) / 2;
     mergeSort(arr, l, m);

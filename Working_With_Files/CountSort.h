@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include <iostream>
 int getMax(int* arr, int n) // фунция для нахождения максимального элемента
 {
 	int max = arr[0];
